@@ -45,7 +45,10 @@ function insertMeetingLink(event, session) {
 }
 
 function _doInsertMeetingLink(event, session) {
-  createRoom(session)
+  Promise.resolve({
+    url: "https://visio.numerique.gouv.fr/rif-pymx-ndj",
+    telephony: { pin_code: "0425282403" },
+  })
     .then((data) => {
       const isWeb = Office.context.diagnostics.platform === "OfficeOnline";
       const { url, text } = buildMeetingMessage(data, isWeb);
@@ -121,12 +124,7 @@ function connect(event) {
 }
 
 function generateMeetingLink(event) {
-  const session = loadSession();
-  if (session?.access_token) {
-    insertMeetingLink(event, session);
-  } else {
-    connect(event);
-  }
+  insertMeetingLink(event, null);
 }
 
 Office.actions.associate("generateMeetingLinkFromCalendar", generateMeetingLink);
