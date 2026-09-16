@@ -10,8 +10,7 @@ const { initI18n, t } = require("../common/i18n");
 const { isMeetingAlreadyAdded } = require("../common/meetingDetector");
 
 Office.onReady(async function (info) {
-
-  await initI18n()
+  await initI18n();
 
   if (info.host === Office.HostType.Outlook) {
     applyAppName();

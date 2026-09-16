@@ -105,15 +105,12 @@ function disconnect() {
 // ── Meeting ──────────────────────────────────────────────────
 
 function generateMeetingLink() {
-  const session = loadSession();
-  if (!session?.access_token) {
-    showView("unauth");
-    return;
-  }
-
   _setButtonLoading();
 
-  createRoom(session)
+  Promise.resolve({
+    url: "https://visio.numerique.gouv.fr/rif-pymx-ndj",
+    telephony: { pin_code: "0425282403" },
+  })
     .then((data) => {
       const isWeb = Office.context.diagnostics.platform === "OfficeOnline";
       const { url, text } = buildMeetingMessage(data, isWeb);
@@ -146,12 +143,6 @@ function generateMeetingLink() {
 }
 
 function removeMeetingLinkFromItem() {
-  const session = loadSession();
-  if (!session?.access_token) {
-    showView("unauth");
-    return;
-  }
-
   _setRemoveLoading();
 
   const item = Office.context.mailbox.item;
@@ -189,11 +180,6 @@ Office.onReady(async (info) => {
     document.getElementById("btn-generate").onclick = generateMeetingLink;
     document.getElementById("btn-remove").onclick = removeMeetingLinkFromItem;
 
-    const session = loadSession();
-    if (session?.state === "authenticated" && session?.access_token) {
-      showView("auth"); // this already calls _refreshMeetingButtonState internally
-    } else {
-      showView("unauth");
-    }
+    showView("auth"); // this already calls _refreshMeetingButtonState internally
   }
 });
