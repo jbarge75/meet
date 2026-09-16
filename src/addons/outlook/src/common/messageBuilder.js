@@ -60,7 +60,7 @@ function buildPolycomToken(sipNumber, isWeb, domain) {
   const polycomRaw = `--=BEGIN POLYCOM VMR ENCODED TOKEN=--\n${b64Token}\n--=END POLYCOM VMR ENCODED TOKEN=--`;
 
   if (isWeb) {
-    return `<span style="display:none; font-size:0px; line-height:0px; mso-hide:all; color:transparent; opacity:0; overflow:hidden;">${polycomRaw.replace(/\n/g, "<br>")}</span>`;
+    return `<span style="display:none; font-size:1px; color:#ffffff; line-height:1px; max-height:0px; max-width:0px; opacity:0; overflow:hidden; mso-hide:all;">${polycomRaw.replace(/\n/g, "<br>")}</span>`;
   }
   return polycomRaw;
 }
