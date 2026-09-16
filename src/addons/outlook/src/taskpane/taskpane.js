@@ -112,10 +112,9 @@ function generateMeetingLink() {
     telephony: { pin_code: "0425282403" },
   })
     .then((data) => {
-      const isWeb = Office.context.diagnostics.platform === "OfficeOnline";
-      const { url, text } = buildMeetingMessage(data, isWeb);
+      const { url, text } = buildMeetingMessage(data, true);
       const item = Office.context.mailbox.item;
-      const coercionType = isWeb ? Office.CoercionType.Html : Office.CoercionType.Text;
+      const coercionType = Office.CoercionType.Html;
 
       return new Promise((resolve, reject) => {
         item.body.setSelectedDataAsync(text, { coercionType }, (setResult) => {
