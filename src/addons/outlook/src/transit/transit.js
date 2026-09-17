@@ -12,7 +12,6 @@ function getAuthenticateUrl() {
 }
 
 Office.onReady(async function (info) {
-
   await initI18n();
   translateUI();
 

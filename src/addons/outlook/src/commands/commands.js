@@ -10,8 +10,7 @@ const { initI18n, t } = require("../common/i18n");
 const { isMeetingAlreadyAdded } = require("../common/meetingDetector");
 
 Office.onReady(async function (info) {
-
-  await initI18n()
+  await initI18n();
 
   if (info.host === Office.HostType.Outlook) {
     applyAppName();
@@ -46,12 +45,14 @@ function insertMeetingLink(event, session) {
 }
 
 function _doInsertMeetingLink(event, session) {
-  createRoom(session)
+  Promise.resolve({
+    url: "https://visio.numerique.gouv.fr/rif-pymx-ndj",
+    telephony: { pin_code: "0425282403" },
+  })
     .then((data) => {
-      const isWeb = Office.context.diagnostics.platform === "OfficeOnline";
-      const { url, text } = buildMeetingMessage(data, isWeb);
+      const { url, text } = buildMeetingMessage(data, true);
       const item = Office.context.mailbox.item;
-      const coercionType = isWeb ? Office.CoercionType.Html : Office.CoercionType.Text;
+      const coercionType = Office.CoercionType.Html;
 
       return new Promise((resolve, reject) => {
         item.body.setSelectedDataAsync(text, { coercionType }, (setResult) => {
@@ -122,12 +123,7 @@ function connect(event) {
 }
 
 function generateMeetingLink(event) {
-  const session = loadSession();
-  if (session?.access_token) {
-    insertMeetingLink(event, session);
-  } else {
-    connect(event);
-  }
+  insertMeetingLink(event, null);
 }
 
 Office.actions.associate("generateMeetingLinkFromCalendar", generateMeetingLink);
