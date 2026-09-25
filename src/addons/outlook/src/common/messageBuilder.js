@@ -60,7 +60,12 @@ function buildPolycomToken(sipNumber, isWeb, domain) {
   const polycomRaw = `--=BEGIN POLYCOM VMR ENCODED TOKEN=--\n${b64Token}\n--=END POLYCOM VMR ENCODED TOKEN=--`;
 
   if (isWeb) {
-    return `<div style='line-height:0%;font-size:1.0pt;display:none'>${polycomRaw.replace(/\n/g, "<br>")}</div>`;
+    // display:none / visibility:hidden get stripped by Outlook Web's compose
+    // sanitizer (anti-phishing heuristic against hidden text). Collapsing the
+    // box via max-height/overflow survives it; mso-hide:all hides it in
+    // desktop Outlook (Word rendering engine), ignored elsewhere.
+    const style = "mso-hide:all;max-height:0;overflow:hidden;font-size:1px;line-height:1px";
+    return `<div style='${style}'>${polycomRaw.replace(/\n/g, "<br>")}</div>`;
   }
   return polycomRaw;
 }
