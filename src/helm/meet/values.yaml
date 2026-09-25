@@ -475,12 +475,14 @@ frontend:
   ## @param frontend.outlookAddon.baseUrl Public base URL where the add-in is served (no trailing slash)
   ## @param frontend.outlookAddon.enableSourceTracking Enable appending ?from=outlook-addon to the URL
   ## @param frontend.outlookAddon.feedbackForm Add a link to the footer opening a feedback form
+  ## @param frontend.outlookAddon.polycomAllowedDomains Comma-separated email domains allowed to get the hidden Polycom token (empty disables it for everyone)
   outlookAddon:
     enabled: false
     appName: ""
     baseUrl: ""
     enableSourceTracking: false
     feedbackForm: ""
+    polycomAllowedDomains: ""
     id: ""
 
 
