@@ -14,6 +14,9 @@ function applyAppName() {
  * Resolves the actual body format of the item (HTML vs plain text), rather
  * than guessing it from the host platform. Desktop Outlook (Windows/Mac)
  * composes in HTML just as often as the web client does.
+ *
+ * getTypeAsync's result is a CoercionType ("html"/"text"), not a
+ * MailboxEnums.BodyType — that enum doesn't exist in the Outlook JS API.
  */
 function getIsHtmlBody(item) {
   return new Promise((resolve) => {
@@ -22,7 +25,7 @@ function getIsHtmlBody(item) {
         resolve(true);
         return;
       }
-      resolve(result.value === Office.MailboxEnums.BodyType.Html);
+      resolve(result.value === Office.CoercionType.Html);
     });
   });
 }
