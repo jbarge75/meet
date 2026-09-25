@@ -13,7 +13,9 @@ function showView(name) {
   document.getElementById("view-loading").style.display = "none";
   document.getElementById("view-unauth").style.display = "none";
   document.getElementById("view-auth").style.display = "none";
-  document.getElementById(`view-${name}`).style.display = "block";
+  // These views are display:flex in CSS (for their gap) — block would
+  // override that via inline style specificity and collapse the gap.
+  document.getElementById(`view-${name}`).style.display = "flex";
 
   if (name === "auth") {
     _refreshMeetingButtonState();
