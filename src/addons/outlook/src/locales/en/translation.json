@@ -40,6 +40,8 @@
   "polycom": {
     "label": "Polycom token",
     "enabled": "Enabled",
-    "disabled": "Disabled"
+    "disabled": "Disabled",
+    "info_aria": "Learn more about the Polycom token",
+    "info_text": "This setting is managed by your IT department. It adds a hidden Polycom token to the meeting so compatible video conferencing rooms can connect to it automatically."
   }
 }

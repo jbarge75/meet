@@ -57,9 +57,19 @@ function _setRemoveIdle() {
 }
 
 function _renderPolycomStatus() {
+  const dot = document.getElementById("polycom-status-dot");
   const badge = document.getElementById("polycom-status-badge");
+  dot.classList.toggle("is-off", !POLYCOM_ENABLED);
   badge.textContent = t(POLYCOM_ENABLED ? "polycom.enabled" : "polycom.disabled");
   badge.classList.toggle("is-off", !POLYCOM_ENABLED);
+}
+
+function _togglePolycomInfo() {
+  const btn = document.getElementById("polycom-info-btn");
+  const info = document.getElementById("polycom-info-text");
+  const expanded = btn.getAttribute("aria-expanded") === "true";
+  btn.setAttribute("aria-expanded", String(!expanded));
+  info.hidden = expanded;
 }
 
 function _refreshMeetingButtonState() {
@@ -148,6 +158,7 @@ Office.onReady(async (info) => {
     document.getElementById("app-body").style.display = "flex";
     document.getElementById("btn-generate").onclick = generateMeetingLink;
     document.getElementById("btn-remove").onclick = removeMeetingLinkFromItem;
+    document.getElementById("polycom-info-btn").onclick = _togglePolycomInfo;
     _renderPolycomStatus();
 
     // TEST ONLY — always show the authenticated view, ProConnect bypassed.

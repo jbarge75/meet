@@ -40,9 +40,17 @@
 
     <!-- Authenticated -->
     <div id="view-auth" style="display:none;">
-        <div id="polycom-status" class="feature-status">
-            <span data-i18n="polycom.label"></span>
-            <span id="polycom-status-badge" class="feature-status-badge"></span>
+        <div id="polycom-status" class="feature-card">
+            <div class="feature-card-row">
+                <span id="polycom-status-dot" class="feature-status-dot" aria-hidden="true"></span>
+                <span class="feature-card-title" data-i18n="polycom.label"></span>
+                <button type="button" id="polycom-info-btn" class="info-button" aria-expanded="false" aria-controls="polycom-info-text">
+                    <span aria-hidden="true">?</span>
+                    <span class="proconnect-sr-only" data-i18n="polycom.info_aria"></span>
+                </button>
+                <span id="polycom-status-badge" class="feature-status-badge"></span>
+            </div>
+            <p id="polycom-info-text" class="feature-info-text" data-i18n="polycom.info_text" hidden></p>
         </div>
         <div id="btn-container">
             <!-- shown when no meeting is present -->

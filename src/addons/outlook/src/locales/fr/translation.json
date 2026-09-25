@@ -40,6 +40,8 @@
   "polycom": {
     "label": "Token Polycom",
     "enabled": "Activé",
-    "disabled": "Désactivé"
+    "disabled": "Désactivé",
+    "info_aria": "En savoir plus sur le token Polycom",
+    "info_text": "Ce paramètre est géré par votre DSI. Il permet d'ajouter un token Polycom caché à la réunion, pour que les salles de visioconférence compatibles puissent s'y connecter automatiquement."
   }
 }

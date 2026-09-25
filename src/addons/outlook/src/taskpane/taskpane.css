@@ -98,15 +98,66 @@ button {
 
 /* ── Feature status (e.g. Polycom token) ── */
 
-.feature-status {
+.feature-card {
+    background: #F6F6F6;
+    border: 1px solid #E5E5E5;
+    border-radius: 8px;
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.feature-card-row {
     display: flex;
     align-items: center;
     gap: 8px;
+}
+
+.feature-status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #18753C;
+    flex-shrink: 0;
+}
+
+.feature-status-dot.is-off {
+    background: #929292;
+}
+
+.feature-card-title {
     font-size: 13px;
-    color: #444;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.info-button {
+    width: 18px;
+    height: 18px;
+    padding: 0;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+    background: #fff;
+    color: #666;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.info-button:hover,
+.info-button[aria-expanded="true"] {
+    background: #EEF1F4;
+    border-color: #2845C1;
+    color: #2845C1;
 }
 
 .feature-status-badge {
+    margin-left: auto;
     background: #EEF1F4;
     color: #2845C1;
     padding: 1px 6px;
@@ -115,11 +166,19 @@ button {
     text-transform: uppercase;
     letter-spacing: 0.5px;
     font-size: 10px;
+    flex-shrink: 0;
 }
 
 .feature-status-badge.is-off {
     background: #F5F5F5;
     color: #6b7280;
+}
+
+.feature-info-text {
+    font-size: 12px;
+    color: #555;
+    line-height: 1.4;
+    margin: 0;
 }
 
 #btn-generate {

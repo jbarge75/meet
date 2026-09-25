@@ -40,6 +40,8 @@
   "polycom": {
     "label": "Polycom-Token",
     "enabled": "Aktiviert",
-    "disabled": "Deaktiviert"
+    "disabled": "Deaktiviert",
+    "info_aria": "Mehr über das Polycom-Token erfahren",
+    "info_text": "Diese Einstellung wird von Ihrer IT-Abteilung verwaltet. Sie fügt der Besprechung ein verstecktes Polycom-Token hinzu, damit kompatible Videokonferenzräume sich automatisch damit verbinden können."
   }
 }
