@@ -56,6 +56,12 @@ function _setRemoveIdle() {
   btn.textContent = t("meeting.remove_meeting", { app_name: APP_NAME });
 }
 
+function _renderPolycomStatus() {
+  const badge = document.getElementById("polycom-status-badge");
+  badge.textContent = t(POLYCOM_ENABLED ? "polycom.enabled" : "polycom.disabled");
+  badge.classList.toggle("is-off", !POLYCOM_ENABLED);
+}
+
 function _refreshMeetingButtonState() {
   const item = Office.context.mailbox.item;
   if (!item) return;
@@ -142,6 +148,7 @@ Office.onReady(async (info) => {
     document.getElementById("app-body").style.display = "flex";
     document.getElementById("btn-generate").onclick = generateMeetingLink;
     document.getElementById("btn-remove").onclick = removeMeetingLinkFromItem;
+    _renderPolycomStatus();
 
     // TEST ONLY — always show the authenticated view, ProConnect bypassed.
     showView("auth"); // this already calls _refreshMeetingButtonState internally

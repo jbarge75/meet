@@ -36,5 +36,10 @@
   },
   "footer": {
     "feedback": "Share your feedback"
+  },
+  "polycom": {
+    "label": "Polycom token",
+    "enabled": "Enabled",
+    "disabled": "Disabled"
   }
 }

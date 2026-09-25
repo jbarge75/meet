@@ -36,5 +36,10 @@
   },
   "footer": {
     "feedback": "Teilen Sie uns Ihr Feedback mit"
+  },
+  "polycom": {
+    "label": "Polycom-Token",
+    "enabled": "Aktiviert",
+    "disabled": "Deaktiviert"
   }
 }

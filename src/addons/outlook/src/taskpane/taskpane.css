@@ -96,6 +96,32 @@ button {
     gap: 10px;
 }
 
+/* ── Feature status (e.g. Polycom token) ── */
+
+.feature-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #444;
+}
+
+.feature-status-badge {
+    background: #EEF1F4;
+    color: #2845C1;
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 10px;
+}
+
+.feature-status-badge.is-off {
+    background: #F5F5F5;
+    color: #6b7280;
+}
+
 #btn-generate {
     background-color: #000091;
     color: #fff;
