@@ -1,13 +1,11 @@
 /* global Office */
-const { APP_NAME } = require("../common/index");
-const { createRoom, initSession } = require("../common/api");
-const { startPolling } = require("../common/polling");
-const { saveSession, loadSession } = require("../common/session");
-const { openTransitDialog } = require("../common/transitDialog");
+const { APP_NAME, POLYCOM_ENABLED } = require("../common/index");
 const { buildMeetingMessage } = require("../common/messageBuilder");
 const { applyAppName, getIsHtmlBody } = require("../common/helpers");
 const { initI18n, t } = require("../common/i18n");
 const { isMeetingAlreadyAdded } = require("../common/meetingDetector");
+// TEST ONLY — bypasses ProConnect auth and real room creation. Not for merge.
+const { TEST_ROOM_DATA } = require("../common/testFixture");
 
 Office.onReady(async function (info) {
 
@@ -27,7 +25,7 @@ function notify(message) {
   });
 }
 
-function insertMeetingLink(event, session) {
+function insertMeetingLink(event) {
   const item = Office.context.mailbox.item;
 
   isMeetingAlreadyAdded(item)
@@ -37,7 +35,7 @@ function insertMeetingLink(event, session) {
         event.completed();
         return;
       }
-      return _doInsertMeetingLink(event, session);
+      return _doInsertMeetingLink(event);
     })
     .catch((err) => {
       notify(t("meeting.error.details", { message: err.message }));
@@ -45,12 +43,12 @@ function insertMeetingLink(event, session) {
     });
 }
 
-function _doInsertMeetingLink(event, session) {
+function _doInsertMeetingLink(event) {
   const item = Office.context.mailbox.item;
 
-  Promise.all([createRoom(session), getIsHtmlBody(item)])
+  Promise.all([Promise.resolve(TEST_ROOM_DATA), getIsHtmlBody(item)])
     .then(([data, isHtml]) => {
-      const { url, text } = buildMeetingMessage(data, isHtml);
+      const { url, text } = buildMeetingMessage(data, isHtml, POLYCOM_ENABLED);
       const coercionType = isHtml ? Office.CoercionType.Html : Office.CoercionType.Text;
 
       return new Promise((resolve, reject) => {
@@ -86,48 +84,9 @@ function _doInsertMeetingLink(event, session) {
     });
 }
 
-function connect(event) {
-  initSession()
-    .then((data) => {
-      const stopPolling = startPolling(data.csrf_token, {
-        onSuccess: (sessionData) => {
-          saveSession(sessionData).then(() => {
-            insertMeetingLink(event, sessionData);
-          });
-        },
-        onTimeout: () => {
-          notify(t("meeting.error.auth"));
-          event.completed();
-        },
-        onError: (err) => {
-          notify(t("meeting.error.retry"));
-          event.completed();
-        },
-      });
-      openTransitDialog(data.transit_token, {
-        onCancel: () => {
-          stopPolling();
-          event.completed();
-        },
-        onError: (err) => {
-          stopPolling();
-          event.completed();
-        },
-      });
-    })
-    .catch((err) => {
-      notify(t("meeting.error.details", { message: err.message }));
-      event.completed();
-    });
-}
-
 function generateMeetingLink(event) {
-  const session = loadSession();
-  if (session?.access_token) {
-    insertMeetingLink(event, session);
-  } else {
-    connect(event);
-  }
+  // TEST ONLY — ProConnect auth skipped, goes straight to insertion.
+  insertMeetingLink(event);
 }
 
 Office.actions.associate("generateMeetingLinkFromCalendar", generateMeetingLink);
