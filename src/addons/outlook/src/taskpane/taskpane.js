@@ -1,13 +1,15 @@
 /* global Office */
 const { APP_NAME, FEEDBACK_FORM } = require("../common");
 const { applyAppName, getIsHtmlBody } = require("../common/helpers");
-const { initSession, createRoom } = require("../common/api");
+const { initSession } = require("../common/api");
 const { startPolling } = require("../common/polling");
 const { openTransitDialog } = require("../common/transitDialog");
-const { loadSession, saveSession, clearSession } = require("../common/session");
+const { saveSession, clearSession } = require("../common/session");
 const { buildMeetingMessage } = require("../common/messageBuilder");
 const { initI18n, t, translateUI } = require("../common/i18n");
 const { isMeetingAlreadyAdded, removeMeetingLink } = require("../common/meetingDetector");
+// TEST ONLY — bypasses ProConnect auth and real room creation. Not for merge.
+const { TEST_ROOM_DATA } = require("../common/testFixture");
 
 // ── Views ────────────────────────────────────────────────────
 
@@ -105,17 +107,12 @@ function disconnect() {
 // ── Meeting ──────────────────────────────────────────────────
 
 function generateMeetingLink() {
-  const session = loadSession();
-  if (!session?.access_token) {
-    showView("unauth");
-    return;
-  }
-
+  // TEST ONLY — ProConnect auth skipped, uses fixture room data directly.
   _setButtonLoading();
 
   const item = Office.context.mailbox.item;
 
-  Promise.all([createRoom(session), getIsHtmlBody(item)])
+  Promise.all([Promise.resolve(TEST_ROOM_DATA), getIsHtmlBody(item)])
     .then(([data, isHtml]) => {
       const { url, text } = buildMeetingMessage(data, isHtml);
       const coercionType = isHtml ? Office.CoercionType.Html : Office.CoercionType.Text;
@@ -146,12 +143,7 @@ function generateMeetingLink() {
 }
 
 function removeMeetingLinkFromItem() {
-  const session = loadSession();
-  if (!session?.access_token) {
-    showView("unauth");
-    return;
-  }
-
+  // TEST ONLY — ProConnect auth skipped.
   _setRemoveLoading();
 
   const item = Office.context.mailbox.item;
@@ -189,11 +181,7 @@ Office.onReady(async (info) => {
     document.getElementById("btn-generate").onclick = generateMeetingLink;
     document.getElementById("btn-remove").onclick = removeMeetingLinkFromItem;
 
-    const session = loadSession();
-    if (session?.state === "authenticated" && session?.access_token) {
-      showView("auth"); // this already calls _refreshMeetingButtonState internally
-    } else {
-      showView("unauth");
-    }
+    // TEST ONLY — always show the authenticated view, ProConnect bypassed.
+    showView("auth"); // this already calls _refreshMeetingButtonState internally
   }
 });
